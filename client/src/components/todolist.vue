@@ -7,7 +7,8 @@
               <!-- <div class="caption"> -->
                 <h3>List Todos</h3>
                 <p>{{results.task}}</p>
-                <p>{{results.status}}</p>
+                <button type="button" name="button" v-if="results.status == false ">undone</button>
+                <button type="button" name="button" v-else="results.status == true">done</button>
               </div>
             </div>
       </div>

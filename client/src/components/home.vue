@@ -1,9 +1,10 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <todolist v-bind:result="tampung"></todolist>
+    <todolist v-bind:result="tampung" @click="changestatus"></todolist>
     <button type="button" v-on:click="logout" name="logout">logout</button>
-    <inputtodo></inputtodo>
+    <input type="text" v-model:name="addpost">
+    <button type="button" v-on:click="addtask" name="addtask">addtask</button>
   </div>
 </template>
 
@@ -11,13 +12,13 @@
 import axios from 'axios'
 import todolist from '@/components/todolist'
 import login from '@/components/login'
-import inputtodo from '@/components/inputtodo'
 export default {
   name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to ToDo List',
       tampung: [],
+      addpost: '',
       token: localStorage.getItem('token')
     }
   },
@@ -40,13 +41,20 @@ export default {
         url: 'http://localhost:3000/api',
         headers: {token: localStorage.getItem('token')},
         data: {
-          task: this.addtodo.task
+          task: this.addpost
         }
       })
       .then(response => {
+        console.log('ini response data', response.data)
         this.tampung = response.data
-        this.$router.push('/home')
       })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    changestatus () {
+      console.log(this.tampung.status)
+      // this.tampung.status = true
     },
     logout () {
       localStorage.removeItem('token')
@@ -56,8 +64,7 @@ export default {
   },
   components: {
     todolist,
-    login,
-    inputtodo
+    login
   },
   created () {
     if (this.token == null || this.token === 'invalid username') {

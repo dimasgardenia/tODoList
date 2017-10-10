@@ -34,11 +34,11 @@ let viewTodo = (req,res)=>{
 // }
 
 let createTodo = (req,res)=>{
-  // let tokvery = jwt.verify(req.headers.token, process.env.KEY)
+  let tokvery = jwt.verify(req.headers.token, process.env.KEY)
   // console.log(tokvery)
   db.create({
     task: req.body.task,
-    // author: tokvery
+    author: tokvery
   },function(err,result){
     if(!err){
       res.send(result)
