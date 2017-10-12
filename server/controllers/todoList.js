@@ -38,6 +38,7 @@ let createTodo = (req,res)=>{
   // console.log(tokvery)
   db.create({
     task: req.body.task,
+    status: false,
     author: tokvery
   },function(err,result){
     if(!err){
@@ -66,22 +67,57 @@ let createTodo = (req,res)=>{
 //   })
 // }
 
-let updateTodo = (req,res)=>{
-  db.update({
+let switchStatus = (req,res)=>{
+  console.log('masuk ke switch')
+  console.log('ini req params', req.params.id)
+  db.findOne({
     _id:req.params.id
-  },{
-    task : req.body.task
   },function(err,result){
     if(!err){
-      res.send(result)
+      console.log("masuk")
+      if(result.status == false){
+        db.update({
+          _id: result._id}, {
+          status: true,
+          task: result.task,
+          author: result.author
+        }, function (err, result){
+          if (!err) {
+            res.send(result)
+          } else {
+            res.send(err)
+          }
+        })
+      } else {
+        db.update({
+          _id: result._id,
+          status: false,
+          task: result.task,
+          author: result.author
+        })
+      }
     }else{
       res.send(err)
     }
   })
 }
+// let blogEdit = (req,res)=>{
+//   Blog.updateOne({_id:req.params.id},{
+//     author : req.body.author,
+//     title : req.body.title,
+//     content: req.body.content
+//   },function(err,result){
+//     if(!err){
+//       res.send(result)
+//     }else{
+//       res.send(err)
+//     }
+//   })
+// }
+
 
 let removeTodo=(req,res)=>{
-  db.remove({_id:req.params.id},function(err,result){
+  db.remove({_id:req.params._id},function(err,result){
     if(!err){
       res.send(result)
     }
@@ -94,6 +130,6 @@ let removeTodo=(req,res)=>{
 module.exports = {
   viewTodo,
   createTodo,
-  updateTodo,
+  switchStatus,
   removeTodo
 }

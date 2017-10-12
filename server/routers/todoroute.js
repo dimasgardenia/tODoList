@@ -11,7 +11,8 @@ require('dotenv').config()
 // router.get('/',loginhelp.haslogin,todo.viewTodo)
 router.get('/',loginhelp.haslogin,todo.viewTodo)
 router.post('/',loginhelp.haslogin,todo.createTodo)
-router.put('/:id',loginhelp.haslogin,todo.updateTodo)
+router.put('/:id',loginhelp.haslogin,todo.switchStatus)
+// router.put('/:id',todo.updateTodo)
 router.delete('/:id',loginhelp.haslogin,todo.removeTodo)
 
 module.exports = router

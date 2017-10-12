@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <todolist v-bind:result="tampung" @click="changestatus"></todolist>
+    <todolist v-bind:result="tampung"></todolist>
     <button type="button" v-on:click="logout" name="logout">logout</button>
     <input type="text" v-model:name="addpost">
     <button type="button" v-on:click="addtask" name="addtask">addtask</button>
@@ -47,14 +47,11 @@ export default {
       .then(response => {
         console.log('ini response data', response.data)
         this.tampung = response.data
+        this.getlist()
       })
       .catch(error => {
         console.log(error)
       })
-    },
-    changestatus () {
-      console.log(this.tampung.status)
-      // this.tampung.status = true
     },
     logout () {
       localStorage.removeItem('token')

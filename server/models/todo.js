@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 let TodoSchema = new Schema({
   task : String,
-  status: false,
+  status: Boolean,
   author: {type: Schema.Types.ObjectId, ref: "Users"}
 })
 
